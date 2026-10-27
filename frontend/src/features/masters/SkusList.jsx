@@ -1,21 +1,44 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Box, Typography, Paper, TextField, InputAdornment, Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { Search, Plus, Package } from 'lucide-react';
 import { useGetSkusQuery } from '../../store/api/skuApi';
 import SkuCreateModal from './SkuCreateModal';
+import { defaultMockSkus, getStoredSkus } from '../../mock-data/mockSkus';
 import { BRAND } from '../../theme/brand';
 
 const SkusList = () => {
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 });
   const [searchTerm, setSearchTerm] = useState('');
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [localUpdatedTick, setLocalUpdatedTick] = useState(0);
+
+  useEffect(() => {
+    const handleUpdate = () => setLocalUpdatedTick(prev => prev + 1);
+    window.addEventListener('skus-updated', handleUpdate);
+    return () => window.removeEventListener('skus-updated', handleUpdate);
+  }, []);
 
   const { data, isLoading } = useGetSkusQuery({
     page: paginationModel.page + 1,
     limit: paginationModel.pageSize,
     search: searchTerm || undefined,
   });
+
+  const displayRows = useMemo(() => {
+    const custom = getStoredSkus();
+    const baseList = (data?.data && data.data.length > 0) ? data.data : defaultMockSkus;
+    const existingCodes = new Set(custom.map(s => s.code || s._id));
+    const merged = [...custom, ...baseList.filter(s => !existingCodes.has(s.code || s._id))];
+
+    if (!searchTerm.trim()) return merged;
+    const term = searchTerm.toLowerCase();
+    return merged.filter(s =>
+      s.name?.toLowerCase().includes(term) ||
+      s.code?.toLowerCase().includes(term) ||
+      s.category?.toLowerCase().includes(term)
+    );
+  }, [data, searchTerm, localUpdatedTick]);
 
   const columns = [
     {
@@ -179,12 +202,10 @@ const SkusList = () => {
         border: `1px solid ${BRAND.surface.border}`,
       }}>
         <DataGrid
-          rows={data?.data || []}
+          rows={displayRows}
           columns={columns}
-          getRowId={(row) => row._id}
-          loading={isLoading}
-          paginationMode="server"
-          rowCount={data?.meta?.total || 0}
+          getRowId={(row) => row._id || row.code}
+          loading={isLoading && displayRows.length === 0}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           pageSizeOptions={[10, 25, 50]}

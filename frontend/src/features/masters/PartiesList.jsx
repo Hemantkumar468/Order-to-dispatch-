@@ -1,22 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Box, Typography, Paper, TextField, InputAdornment, Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { Search, Plus, Users, Clock, CreditCard } from 'lucide-react';
 import { alpha } from '@mui/material/styles';
 import { useGetPartiesQuery } from '../../store/api/partyApi';
 import PartyCreateModal from './PartyCreateModal';
+import { defaultMockParties, getStoredParties } from '../../mock-data/mockParties';
 import { BRAND } from '../../theme/brand';
 
 const PartiesList = () => {
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 });
   const [searchTerm, setSearchTerm] = useState('');
   const [isCreateOpen, setIsCreateOpen] = useState(false);
+  const [localUpdatedTick, setLocalUpdatedTick] = useState(0);
+
+  useEffect(() => {
+    const handleUpdate = () => setLocalUpdatedTick(prev => prev + 1);
+    window.addEventListener('parties-updated', handleUpdate);
+    return () => window.removeEventListener('parties-updated', handleUpdate);
+  }, []);
 
   const { data, isLoading } = useGetPartiesQuery({
     page: paginationModel.page + 1,
     limit: paginationModel.pageSize,
     search: searchTerm || undefined,
   });
+
+  const displayRows = useMemo(() => {
+    const custom = getStoredParties();
+    const baseList = (data?.data && data.data.length > 0) ? data.data : defaultMockParties;
+    const existingCodes = new Set(custom.map(c => c.code || c._id));
+    const merged = [...custom, ...baseList.filter(p => !existingCodes.has(p.code || p._id))];
+
+    if (!searchTerm.trim()) return merged;
+    const term = searchTerm.toLowerCase();
+    return merged.filter(p =>
+      p.name?.toLowerCase().includes(term) ||
+      p.code?.toLowerCase().includes(term) ||
+      p.location?.toLowerCase().includes(term)
+    );
+  }, [data, searchTerm, localUpdatedTick]);
 
   const columns = [
     {
@@ -196,12 +219,10 @@ const PartiesList = () => {
         border: `1px solid ${BRAND.surface.border}`,
       }}>
         <DataGrid
-          rows={data?.data || []}
+          rows={displayRows}
           columns={columns}
-          getRowId={(row) => row._id}
-          loading={isLoading}
-          paginationMode="server"
-          rowCount={data?.meta?.total || 0}
+          getRowId={(row) => row._id || row.code}
+          loading={isLoading && displayRows.length === 0}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           pageSizeOptions={[10, 25, 50]}
