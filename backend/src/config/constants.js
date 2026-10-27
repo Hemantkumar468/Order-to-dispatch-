@@ -5,7 +5,7 @@
 // ── Document Number Prefixes ────────────────────────────────
 export const DOC_PREFIX = {
   SALES_ORDER:      'AGL/SO',
-  DELIVERY_CHALLAN: 'AK/DC',
+  DELIVERY_CHALLAN: 'HK/DC',
   TAX_INVOICE:      'AGL/TI',
   O2D_TRACKER:      'AGL-O2D',
 };

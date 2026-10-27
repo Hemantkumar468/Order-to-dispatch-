@@ -1,5 +1,5 @@
 /**
- * Seed runner — inserts all data from AGL sheets into MongoDB.
+ * Seed runner — inserts all data from seed file into MongoDB.
  * Run: npm run seed
  */
 import dotenv from 'dotenv';
@@ -18,9 +18,12 @@ import DeliveryChallan from '../modules/challan/challan.model.js';
 import Invoice from '../modules/invoice/invoice.model.js';
 import Shipment from '../modules/shipment/shipment.model.js';
 import Payment from '../modules/payment/payment.model.js';
+import PPCEntry from '../modules/ppc/ppc.model.js';
+import DispatchSchedule from '../modules/schedule/schedule.model.js';
+import User from '../modules/auth/auth.model.js';
 
 // Data
-import { partiesData, skusData, ordersData, challansData, fmsData } from './seedData.js';
+import { partiesData, skusData, ordersData, challansData, fmsData, ppcData, schedulesData } from './seedData.js';
 
 const run = async () => {
   await connectDB();
@@ -35,23 +38,35 @@ const run = async () => {
     Invoice.deleteMany({}),
     Shipment.deleteMany({}),
     Payment.deleteMany({}),
+    PPCEntry.deleteMany({}),
+    DispatchSchedule.deleteMany({}),
+    User.deleteMany({}),
     mongoose.connection.collection('counters').deleteMany({}),
   ]);
   logger.info('🗑️  Cleared all collections');
 
-  // ── 2. Insert Parties ───────────────────────────────────
+  // ── 2. Insert Default Users ─────────────────────────────
+  const users = await User.create([
+    { name: 'Admin',    email: 'admin@hemantglobal.com',    password: 'admin123',    role: 'ADMIN' },
+    { name: 'PPC User', email: 'ppc@hemantglobal.com',     password: 'ppc12345',    role: 'PPC' },
+    { name: 'Accounts', email: 'accounts@hemantglobal.com', password: 'acc12345',    role: 'ACCOUNTS' },
+    { name: 'Dispatch', email: 'dispatch@hemantglobal.com', password: 'disp12345',   role: 'DISPATCH' },
+  ]);
+  logger.info(`✅ Inserted ${users.length} users`);
+
+  // ── 3. Insert Parties ───────────────────────────────────
   const parties = await Party.insertMany(partiesData);
   const partyMap = {};
   parties.forEach((p) => { partyMap[p.code] = p; });
   logger.info(`✅ Inserted ${parties.length} parties`);
 
-  // ── 3. Insert SKUs ──────────────────────────────────────
+  // ── 4. Insert SKUs ──────────────────────────────────────
   const skus = await SKU.insertMany(skusData);
   const skuMap = {};
   skus.forEach((s) => { skuMap[s.code] = s; });
   logger.info(`✅ Inserted ${skus.length} SKUs`);
 
-  // ── 4. Insert Sales Orders ──────────────────────────────
+  // ── 5. Insert Sales Orders ──────────────────────────────
   const orderDocs = ordersData.map((o) => {
     const party = partyMap[o.partyCode];
     const items = o.items.map((item) => {
@@ -88,11 +103,14 @@ const run = async () => {
   });
 
   const orders = await SalesOrder.insertMany(orderDocs);
+  const orderMap = {};
+  orders.forEach((o) => { orderMap[o.soNumber] = o; });
   logger.info(`✅ Inserted ${orders.length} sales orders`);
 
-  // ── 5. Insert Delivery Challans ─────────────────────────
+  // ── 6. Insert Delivery Challans ─────────────────────────
   const challanDocs = challansData.map((dc) => {
     const party = partyMap[dc.partyCode];
+    const order = orderMap[dc.soNumber];
     const items = dc.items.map((item, idx) => ({
       srNo:        idx + 1,
       skuName:     item.skuName,
@@ -105,9 +123,11 @@ const run = async () => {
     return {
       dcNumber:         dc.dcNumber,
       soNumber:         dc.soNumber,
+      orderId:          order?._id,
       partyId:          party?._id,
       partyName:        party?.name,
       dcDate:           new Date(dc.dcDate),
+      vehicleNo:        dc.vehicleNo || null,
       items,
       totalQuantityPcs: items.reduce((s, i) => s + i.quantityPcs, 0),
       totalBoxes:       items.reduce((s, i) => s + i.noOfBoxes, 0),
@@ -120,7 +140,7 @@ const run = async () => {
   const challans = await DeliveryChallan.insertMany(challanDocs);
   logger.info(`✅ Inserted ${challans.length} delivery challans`);
 
-  // ── 6. Insert FMS (Invoices + Shipments + Payments) ─────
+  // ── 7. Insert FMS (Invoices + Shipments + Payments) ─────
   let invoiceCount = 0;
   for (const fms of fmsData) {
     const party = partyMap[fms.partyCode];
@@ -137,7 +157,8 @@ const run = async () => {
       invoiceAmount:  fms.invoiceAmount,
       amountReceived: fms.amountReceived,
       balance:        fms.invoiceAmount - fms.amountReceived,
-      status:         fms.amountReceived >= fms.invoiceAmount ? 'PAID' : 'PARTIAL',
+      status:         fms.amountReceived >= fms.invoiceAmount ? 'PAID' :
+                      fms.amountReceived > 0 ? 'PARTIAL' : 'PENDING',
       creation: { status: 'DONE', actual: new Date(fms.invoiceDate) },
       emailToClient: { status: 'DONE' },
     });
@@ -164,12 +185,13 @@ const run = async () => {
       partyId:   party?._id,
       partyName: party?.name,
       type:      'CLIENT_PAYMENT',
-      followUp:     { status: 'DONE' },
+      followUp:     { status: fms.amountReceived > 0 ? 'DONE' : 'PENDING' },
       confirmation: {
         creditPeriodDays: fms.creditPeriodDays || 30,
         receivedDate:     fms.receivedDate ? new Date(fms.receivedDate) : null,
         receivedAmount:   fms.receivedAmount || 0,
-        status:           'DONE',
+        status:           fms.amountReceived >= fms.invoiceAmount ? 'DONE' :
+                          fms.amountReceived > 0 ? 'YES' : 'PENDING',
       },
     });
 
@@ -177,17 +199,78 @@ const run = async () => {
   }
   logger.info(`✅ Inserted ${invoiceCount} FMS records (invoice + shipment + payment each)`);
 
-  // ── 7. Set counters to avoid conflicts ──────────────────
+  // ── 8. Insert PPC Entries ───────────────────────────────
+  const ppcDocs = ppcData.map((p) => {
+    const party = partyMap[p.partyCode];
+    const sku = skuMap[p.skuCode];
+    return {
+      ...p,
+      partyId:   party?._id,
+      partyName: party?.name,
+      skuId:     sku?._id,
+      skuName:   sku?.name,
+      dailyPlan: p.dailyPlan.map((d) => ({ ...d, date: new Date(d.date) })),
+    };
+  });
+
+  const ppcEntries = await PPCEntry.insertMany(ppcDocs);
+  logger.info(`✅ Inserted ${ppcEntries.length} PPC entries`);
+
+  // ── 9. Insert Dispatch Schedules ────────────────────────
+  const scheduleDocs = schedulesData.map((s) => {
+    const party = partyMap[s.partyCode];
+    const order = orderMap[s.soNumber];
+    return {
+      soNumber:  s.soNumber,
+      poNumber:  s.poNumber,
+      partyId:   party?._id,
+      partyName: party?.name,
+      orderId:   order?._id,
+      poDate:    s.poDate ? new Date(s.poDate) : null,
+      status:    s.status || 'DRAFT',
+      items: s.items.map((item) => {
+        const sku = skuMap[item.skuCode] || skus.find((sk) => sk.name === item.skuName);
+        return {
+          skuId:         sku?._id,
+          skuName:       item.skuName,
+          poQty:         item.poQty,
+          dispatchedQty: item.dispatchedQty,
+          balanceQty:    item.balanceQty,
+          phases: item.phases.map((ph) => ({
+            phaseNo:        ph.phaseNo,
+            plannedDate:    ph.plannedDate ? new Date(ph.plannedDate) : null,
+            plannedQty:     ph.plannedQty,
+            totalActualQty: ph.totalActualQty || 0,
+            actualDates:    (ph.actualDates || []).map((d) => new Date(d)),
+            actualQtys:     ph.actualQtys || [],
+          })),
+        };
+      }),
+    };
+  });
+
+  const schedules = await DispatchSchedule.insertMany(scheduleDocs);
+  logger.info(`✅ Inserted ${schedules.length} dispatch schedules`);
+
+  // ── 10. Set counters to avoid conflicts ─────────────────
   await setCounter('AGL/SO_24-25', 8);
-  await setCounter('AGL/SO_25-26', 3);
-  await setCounter('AGL/SO_26-27', 2);
-  await setCounter('AGL/DC_24-25', 17);
-  await setCounter('AGL/DC_26-27', 15);
-  await setCounter('AGL/TI_24-25', 17);
-  await setCounter('AGL-O2D', 21);
+  await setCounter('AGL/SO_25-26', 7);
+  await setCounter('AGL/SO_26-27', 8);
+  await setCounter('HK/DC_24-25', 8);
+  await setCounter('HK/DC_25-26', 8);
+  await setCounter('HK/DC_26-27', 5);
+  await setCounter('AGL/TI_24-25', 8);
+  await setCounter('AGL/TI_25-26', 8);
+  await setCounter('AGL/TI_26-27', 5);
+  await setCounter('AGL-O2D', 30);
   logger.info('✅ Counters set');
 
   logger.info('🎉 Seed complete!');
+  logger.info('📧 Login credentials:');
+  logger.info('   Admin:    admin@hemantglobal.com / admin123');
+  logger.info('   PPC:      ppc@hemantglobal.com / ppc12345');
+  logger.info('   Accounts: accounts@hemantglobal.com / acc12345');
+  logger.info('   Dispatch: dispatch@hemantglobal.com / disp12345');
   process.exit(0);
 };
 

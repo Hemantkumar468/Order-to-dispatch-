@@ -12,8 +12,8 @@ import { BRAND } from '../../theme/brand';
 import dayjs from 'dayjs';
 
 export const formatDcNumber = (val) => {
-  if (!val) return 'AK/DC';
-  return val.replace(/^AGL\//, 'AK/');
+  if (!val) return 'HK/DC';
+  return val.replace(/^AGL\//, 'HK/');
 };
 
 const StatusBadge = ({ value }) => {
