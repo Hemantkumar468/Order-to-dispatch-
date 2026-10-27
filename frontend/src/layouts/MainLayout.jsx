@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import {
   Box, Drawer, List, ListItem, ListItemButton, ListItemIcon,
   ListItemText, Typography, Divider, IconButton, AppBar, Toolbar,
-  useTheme, useMediaQuery, Chip, Tooltip
+  useTheme, useMediaQuery
 } from '@mui/material';
 import {
   Menu as MenuIcon, LayoutDashboard, ShoppingCart, Truck, FileText,
-  Package, Users, Activity, Calendar, ScrollText, ShieldCheck,
-  CheckCircle2, ChevronRight, Lock
+  Package, Users, Calendar, ScrollText, ShieldCheck
 } from 'lucide-react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { BRAND } from '../theme/brand';
@@ -50,20 +49,6 @@ const MainLayout = () => {
   const location = useLocation();
 
   const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
-
-  const getPageTitle = () => {
-    const path = location.pathname;
-    if (path.startsWith('/orders')) return 'Sales Orders Portfolio';
-    if (path.startsWith('/ppc-planning')) return 'PPC Production Planning';
-    if (path.startsWith('/planning')) return 'Dispatch Planning & Allocation';
-    if (path.startsWith('/challans')) return 'Delivery Challan Execution';
-    if (path.startsWith('/invoices')) return 'Invoices & Freight Management (FMS)';
-    if (path.startsWith('/ledger')) return 'Dispatch Ledger Archive';
-    if (path.startsWith('/skus')) return 'SKU Product Catalog Master';
-    if (path.startsWith('/parties')) return 'Parties & Client Accounts Master';
-    if (path.startsWith('/admin-control')) return 'System Administration & RBAC Control';
-    return 'Executive Operations Dashboard';
-  };
 
   const drawerContent = (
     <Box sx={{
@@ -191,67 +176,6 @@ const MainLayout = () => {
           </Box>
         ))}
       </Box>
-
-      {/* Admin User Profile Card (Bottom of Sidebar) */}
-      <Box sx={{ p: 1.5, borderTop: `1px solid ${BRAND.surface.border}`, bgcolor: BRAND.surface.header }}>
-        <Box sx={{
-          p: 1.4,
-          borderRadius: '12px',
-          bgcolor: 'rgba(79, 70, 229, 0.06)',
-          border: '1px solid rgba(79, 70, 229, 0.22)',
-          display: 'flex',
-          alignItems: 'center',
-          gap: 1.2,
-          cursor: 'pointer',
-          transition: 'all 0.2s ease',
-          '&:hover': {
-            bgcolor: 'rgba(79, 70, 229, 0.12)',
-            borderColor: BRAND.primaryLight,
-            transform: 'translateY(-1px)'
-          }
-        }}
-        onClick={() => navigate('/admin-control')}
-        >
-          <Box sx={{
-            width: 34,
-            height: 34,
-            borderRadius: '9px',
-            background: BRAND.primaryGradient,
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            color: '#fff',
-            fontWeight: 900,
-            fontSize: '0.82rem',
-            boxShadow: '0 2px 8px rgba(79, 70, 229, 0.35)',
-            flexShrink: 0
-          }}>
-            A
-          </Box>
-          <Box sx={{ minWidth: 0, flexGrow: 1 }}>
-            <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-              <Typography sx={{ fontSize: '0.8rem', fontWeight: 800, color: BRAND.text.primary, lineHeight: 1.2 }} noWrap>
-                Admin User
-              </Typography>
-              <Box sx={{
-                px: 0.7,
-                py: 0.15,
-                borderRadius: '4px',
-                bgcolor: BRAND.primary,
-                color: '#fff',
-                fontSize: '0.58rem',
-                fontWeight: 900,
-                letterSpacing: '0.04em'
-              }}>
-                ADMIN
-              </Box>
-            </Box>
-            <Typography sx={{ fontSize: '0.67rem', color: BRAND.text.secondary, mt: 0.2 }} noWrap>
-              admin@hemantglobal.com
-            </Typography>
-          </Box>
-        </Box>
-      </Box>
     </Box>
   );
 
@@ -326,93 +250,16 @@ const MainLayout = () => {
         </Drawer>
       </Box>
 
-      {/* Main Content Area with Desktop Top Bar */}
-      <Box sx={{
-        flexGrow: 1,
-        width: { sm: `calc(100% - ${drawerWidth}px)` },
+      {/* Main Content Area */}
+      <Box component="main" sx={{ 
+        flexGrow: 1, 
+        p: 0, 
+        width: { sm: `calc(100% - ${drawerWidth}px)` }, 
         mt: { xs: 7, sm: 0 },
-        display: 'flex',
-        flexDirection: 'column',
-        minHeight: '100vh',
+        minWidth: 0,
         bgcolor: BRAND.surface.bg,
       }}>
-        {/* Desktop Top Header Bar */}
-        <Box sx={{
-          display: { xs: 'none', sm: 'flex' },
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          px: 3,
-          py: 1.4,
-          bgcolor: BRAND.surface.sidebar,
-          borderBottom: `1px solid ${BRAND.surface.border}`,
-        }}>
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-            <Typography sx={{ fontSize: '0.75rem', fontWeight: 600, color: BRAND.text.secondary }}>
-              Hemant Global ERP
-            </Typography>
-            <ChevronRight size={14} color="#94a3b8" />
-            <Typography sx={{ fontSize: '0.78rem', fontWeight: 800, color: BRAND.text.primary }}>
-              {getPageTitle()}
-            </Typography>
-          </Box>
-
-          <Box sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
-            <Box sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 0.8,
-              px: 1.2,
-              py: 0.4,
-              borderRadius: '8px',
-              bgcolor: BRAND.successBg,
-              border: `1px solid ${BRAND.successBorder}`,
-            }}>
-              <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: '#10b981', boxShadow: '0 0 6px #10b981' }} />
-              <Typography sx={{ fontSize: '0.7rem', fontWeight: 800, color: BRAND.successDark }}>
-                Live Core Engine
-              </Typography>
-            </Box>
-
-            <Box sx={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 1,
-              pl: 2,
-              borderLeft: `1px solid ${BRAND.surface.border}`,
-              cursor: 'pointer',
-            }}
-            onClick={() => navigate('/admin-control')}
-            >
-              <Box sx={{
-                width: 28,
-                height: 28,
-                borderRadius: '7px',
-                background: BRAND.primaryGradient,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                color: '#fff',
-                fontSize: '0.75rem',
-                fontWeight: 900
-              }}>
-                A
-              </Box>
-              <Box sx={{ textAlign: 'left' }}>
-                <Typography sx={{ fontSize: '0.76rem', fontWeight: 800, color: BRAND.text.primary, lineHeight: 1.1 }}>
-                  Admin (Super User)
-                </Typography>
-                <Typography sx={{ fontSize: '0.64rem', fontWeight: 700, color: BRAND.primary }}>
-                  Full Access Role
-                </Typography>
-              </Box>
-            </Box>
-          </Box>
-        </Box>
-
-        {/* Page Content */}
-        <Box component="main" sx={{ flexGrow: 1, p: 0, minWidth: 0 }}>
-          <Outlet />
-        </Box>
+        <Outlet />
       </Box>
     </Box>
   );
