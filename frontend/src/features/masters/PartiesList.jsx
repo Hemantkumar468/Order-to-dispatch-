@@ -68,7 +68,7 @@ const PartiesList = () => {
       flex: 1,
       minWidth: 260,
       renderCell: (p) => (
-        <Typography variant="body2" fontWeight={600} sx={{ color: '#f8fafc' }}>
+        <Typography variant="body2" fontWeight={600} sx={{ color: BRAND.text.primary }}>
           {p.value}
         </Typography>
       )
@@ -78,7 +78,7 @@ const PartiesList = () => {
       headerName: 'LOCATION',
       width: 200,
       renderCell: (p) => (
-        <Typography variant="body2" sx={{ color: '#94a3b8', fontWeight: 500 }}>
+        <Typography variant="body2" sx={{ color: BRAND.text.secondary, fontWeight: 500 }}>
           {p.value || '-'}
         </Typography>
       )

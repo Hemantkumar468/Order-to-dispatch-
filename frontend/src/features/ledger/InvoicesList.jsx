@@ -117,13 +117,13 @@ const InvoicesList = () => {
       headerName: 'CUSTOMER',
       flex: 1,
       minWidth: 220,
-      renderCell: (p) => <Typography variant="body2" fontWeight={600} noWrap sx={{ color: '#f8fafc' }}>{p.value || p.row.partyId?.name || '-'}</Typography>
+      renderCell: (p) => <Typography variant="body2" fontWeight={600} noWrap sx={{ color: BRAND.text.primary }}>{p.value || p.row.partyId?.name || '-'}</Typography>
     },
     {
       field: 'invoiceDate',
       headerName: 'DATE',
       width: 130,
-      renderCell: (p) => <Typography variant="body2" sx={{ color: '#94a3b8', fontWeight: 500 }}>{p.value ? dayjs(p.value).format('DD MMM YYYY') : '-'}</Typography>
+      renderCell: (p) => <Typography variant="body2" sx={{ color: BRAND.text.secondary, fontWeight: 500 }}>{p.value ? dayjs(p.value).format('DD MMM YYYY') : '-'}</Typography>
     },
     {
       field: 'invoiceAmount',
@@ -134,7 +134,7 @@ const InvoicesList = () => {
       renderCell: (p) => {
         const val = p.row.invoiceAmount ?? p.value ?? 0;
         return (
-          <Typography variant="body2" fontWeight={800} sx={{ color: BRAND.successLight }}>
+          <Typography variant="body2" fontWeight={800} sx={{ color: BRAND.success }}>
             ₹{Number(val).toLocaleString('en-IN')}
           </Typography>
         );
@@ -151,7 +151,7 @@ const InvoicesList = () => {
       headerName: 'DC REF',
       width: 150,
       renderCell: (p) => (
-        <Typography variant="body2" sx={{ color: '#94a3b8', fontWeight: 500 }}>
+        <Typography variant="body2" sx={{ color: BRAND.text.secondary, fontWeight: 600 }}>
           {p.value || '-'}
         </Typography>
       )

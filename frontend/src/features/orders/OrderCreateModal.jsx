@@ -259,11 +259,11 @@ const OrderCreateModal = ({ open, onClose }) => {
           <Table size="small" sx={{ minWidth: 600 }}>
             <TableHead>
               <TableRow sx={{ bgcolor: 'rgba(255,255,255,0.02)' }}>
-                <TableCell sx={{ fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', color: '#94a3b8', borderBottom: `1px solid ${BRAND.surface.border}` }}>SKU (Item Name)</TableCell>
-                <TableCell sx={{ fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', color: '#94a3b8', width: 100, borderBottom: `1px solid ${BRAND.surface.border}` }}>Code</TableCell>
-                <TableCell sx={{ fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', color: '#94a3b8', width: 90, borderBottom: `1px solid ${BRAND.surface.border}` }}>Qty *</TableCell>
-                <TableCell sx={{ fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', color: '#94a3b8', width: 110, borderBottom: `1px solid ${BRAND.surface.border}` }}>ASN/FCI</TableCell>
-                <TableCell sx={{ fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', color: '#94a3b8', width: 120, borderBottom: `1px solid ${BRAND.surface.border}` }}>Remark</TableCell>
+                <TableCell sx={{ fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', color: BRAND.text.secondary, borderBottom: `1px solid ${BRAND.surface.border}` }}>SKU (Item Name)</TableCell>
+                <TableCell sx={{ fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', color: BRAND.text.secondary, width: 100, borderBottom: `1px solid ${BRAND.surface.border}` }}>Code</TableCell>
+                <TableCell sx={{ fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', color: BRAND.text.secondary, width: 90, borderBottom: `1px solid ${BRAND.surface.border}` }}>Qty *</TableCell>
+                <TableCell sx={{ fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', color: BRAND.text.secondary, width: 110, borderBottom: `1px solid ${BRAND.surface.border}` }}>ASN/FCI</TableCell>
+                <TableCell sx={{ fontWeight: 800, fontSize: '0.7rem', textTransform: 'uppercase', color: BRAND.text.secondary, width: 120, borderBottom: `1px solid ${BRAND.surface.border}` }}>Remark</TableCell>
                 <TableCell sx={{ width: 40, borderBottom: `1px solid ${BRAND.surface.border}` }}></TableCell>
               </TableRow>
             </TableHead>

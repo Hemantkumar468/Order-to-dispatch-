@@ -67,7 +67,7 @@ const SkusList = () => {
       flex: 1,
       minWidth: 260,
       renderCell: (p) => (
-        <Typography variant="body2" fontWeight={600} sx={{ color: '#f8fafc' }}>
+        <Typography variant="body2" fontWeight={600} sx={{ color: BRAND.text.primary }}>
           {p.value}
         </Typography>
       )
@@ -103,7 +103,7 @@ const SkusList = () => {
       align: 'center',
       headerAlign: 'center',
       renderCell: (p) => (
-        <Typography variant="body2" fontWeight={700} sx={{ color: '#e2e8f0' }}>
+        <Typography variant="body2" fontWeight={700} sx={{ color: BRAND.text.primary }}>
           {p.value || '-'}
         </Typography>
       )

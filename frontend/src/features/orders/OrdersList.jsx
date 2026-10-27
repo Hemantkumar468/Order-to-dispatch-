@@ -200,20 +200,20 @@ const OrdersList = () => {
       field: 'poNumber',
       headerName: 'PO #',
       width: 140,
-      renderCell: (p) => <Typography variant="body2" sx={{ color: '#94a3b8', fontWeight: 500, fontSize: '0.8rem' }}>{p.value}</Typography>
+      renderCell: (p) => <Typography variant="body2" sx={{ color: BRAND.text.secondary, fontWeight: 600, fontSize: '0.8rem' }}>{p.value}</Typography>
     },
     {
       field: 'partyName',
       headerName: 'CUSTOMER',
       flex: 1,
       minWidth: 200,
-      renderCell: (p) => <Typography variant="body2" fontWeight={600} noWrap sx={{ color: '#f8fafc', fontSize: '0.82rem' }}>{p.value}</Typography>
+      renderCell: (p) => <Typography variant="body2" fontWeight={600} noWrap sx={{ color: BRAND.text.primary, fontSize: '0.82rem' }}>{p.value}</Typography>
     },
     {
       field: 'orderDate',
       headerName: 'DATE',
       width: 105,
-      renderCell: (p) => <Typography variant="body2" sx={{ color: '#94a3b8', fontWeight: 500, fontSize: '0.8rem' }}>{dayjs(p.value).format('DD MMM YY')}</Typography>
+      renderCell: (p) => <Typography variant="body2" sx={{ color: BRAND.text.secondary, fontWeight: 500, fontSize: '0.8rem' }}>{dayjs(p.value).format('DD MMM YY')}</Typography>
     },
     {
       field: 'items',

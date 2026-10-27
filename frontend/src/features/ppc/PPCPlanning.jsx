@@ -70,13 +70,13 @@ const PPCPlanning = () => {
       field: 'partyName',
       headerName: 'PARTY',
       width: 180,
-      renderCell: (p) => <Typography variant="body2" fontWeight={600} noWrap sx={{ color: '#f8fafc' }}>{p.value}</Typography>
+      renderCell: (p) => <Typography variant="body2" fontWeight={600} noWrap sx={{ color: BRAND.text.primary }}>{p.value}</Typography>
     },
     {
       field: 'skuName',
       headerName: 'SKU',
       width: 180,
-      renderCell: (p) => <Typography variant="body2" sx={{ color: '#cbd5e1', fontWeight: 500 }} noWrap>{p.value}</Typography>
+      renderCell: (p) => <Typography variant="body2" sx={{ color: BRAND.text.secondary, fontWeight: 500 }} noWrap>{p.value}</Typography>
     },
     {
       field: 'orderQty',
