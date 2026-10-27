@@ -4,11 +4,13 @@ import { DataGrid } from '@mui/x-data-grid';
 import { Search, Plus, Users, Clock, CreditCard } from 'lucide-react';
 import { alpha } from '@mui/material/styles';
 import { useGetPartiesQuery } from '../../store/api/partyApi';
+import PartyCreateModal from './PartyCreateModal';
 import { BRAND } from '../../theme/brand';
 
 const PartiesList = () => {
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 });
   const [searchTerm, setSearchTerm] = useState('');
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   const { data, isLoading } = useGetPartiesQuery({
     page: paginationModel.page + 1,
@@ -177,6 +179,7 @@ const PartiesList = () => {
           <Button
             variant="contained"
             startIcon={<Plus size={16} />}
+            onClick={() => setIsCreateOpen(true)}
             sx={{ width: { xs: '100%', sm: 'auto' }, whiteSpace: 'nowrap' }}
           >
             Add Party
@@ -208,6 +211,9 @@ const PartiesList = () => {
           sx={{ border: 0 }}
         />
       </Paper>
+
+      {/* Add Party Drawer */}
+      <PartyCreateModal open={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
     </Box>
   );
 };

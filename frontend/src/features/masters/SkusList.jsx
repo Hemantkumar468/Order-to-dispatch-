@@ -3,11 +3,13 @@ import { Box, Typography, Paper, TextField, InputAdornment, Button } from '@mui/
 import { DataGrid } from '@mui/x-data-grid';
 import { Search, Plus, Package } from 'lucide-react';
 import { useGetSkusQuery } from '../../store/api/skuApi';
+import SkuCreateModal from './SkuCreateModal';
 import { BRAND } from '../../theme/brand';
 
 const SkusList = () => {
   const [paginationModel, setPaginationModel] = useState({ page: 0, pageSize: 25 });
   const [searchTerm, setSearchTerm] = useState('');
+  const [isCreateOpen, setIsCreateOpen] = useState(false);
 
   const { data, isLoading } = useGetSkusQuery({
     page: paginationModel.page + 1,
@@ -160,6 +162,7 @@ const SkusList = () => {
           <Button
             variant="contained"
             startIcon={<Plus size={16} />}
+            onClick={() => setIsCreateOpen(true)}
             sx={{ width: { xs: '100%', sm: 'auto' }, whiteSpace: 'nowrap' }}
           >
             Add SKU
@@ -191,6 +194,9 @@ const SkusList = () => {
           sx={{ border: 0 }}
         />
       </Paper>
+
+      {/* Add SKU Drawer */}
+      <SkuCreateModal open={isCreateOpen} onClose={() => setIsCreateOpen(false)} />
     </Box>
   );
 };
