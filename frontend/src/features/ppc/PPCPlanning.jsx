@@ -3,6 +3,7 @@ import { Box, Typography, Paper, TextField, MenuItem, Button } from '@mui/materi
 import { DataGrid } from '@mui/x-data-grid';
 import { Download, Calendar, Layers } from 'lucide-react';
 import { useGetPpcMonthDataQuery } from '../../store/api/ppcApi';
+import { generateMockPpcData } from '../../mock-data/mockPpc';
 import { BRAND } from '../../theme/brand';
 import dayjs from 'dayjs';
 
@@ -12,6 +13,10 @@ const PPCPlanning = () => {
   const month = currentDate.month() + 1;
 
   const { data, isLoading } = useGetPpcMonthDataQuery({ year, month });
+
+  const displayRows = useMemo(() => {
+    return (data?.data && data.data.length > 0) ? data.data : generateMockPpcData(year, month);
+  }, [data, year, month]);
 
   const dynamicColumns = useMemo(() => {
     const daysInMonth = currentDate.daysInMonth();
@@ -171,10 +176,10 @@ const PPCPlanning = () => {
         border: `1px solid ${BRAND.surface.border}`,
       }}>
         <DataGrid
-          rows={data?.data || []}
+          rows={displayRows}
           columns={columns}
-          getRowId={(row) => `${row.orderId}_${row.skuId}`}
-          loading={isLoading}
+          getRowId={(row) => `${row.orderId || row.soNumber}_${row.skuId || row.skuCode}`}
+          loading={isLoading && displayRows.length === 0}
           disableRowSelectionOnClick
           rowHeight={50}
           columnHeaderHeight={46}

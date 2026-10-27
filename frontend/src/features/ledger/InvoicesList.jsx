@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Box, Typography, Paper, IconButton, Tooltip, Button, TextField, InputAdornment } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { Search, Download, Eye, DollarSign, FileText } from 'lucide-react';
 import { useGetInvoicesQuery } from '../../store/api/fmsApi';
+import { mockInvoices } from '../../mock-data/mockInvoices';
 import TableSkeleton from '../../components/TableSkeleton';
 import { BRAND } from '../../theme/brand';
 import dayjs from 'dayjs';
@@ -52,6 +53,19 @@ const InvoicesList = () => {
     search: searchTerm || undefined,
   });
 
+  const displayRows = useMemo(() => {
+    let list = (data?.data && data.data.length > 0) ? data.data : mockInvoices;
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      list = list.filter(i =>
+        i.invoiceNo?.toLowerCase().includes(term) ||
+        (i.partyName || i.partyId?.name)?.toLowerCase().includes(term) ||
+        i.dcNumber?.toLowerCase().includes(term)
+      );
+    }
+    return list;
+  }, [data, searchTerm]);
+
   const handleViewInvoice = (row) => {
     setSelectedInvoiceId(row._id);
     setIsDetailOpen(true);
@@ -63,8 +77,8 @@ const InvoicesList = () => {
   };
 
   const handleExport = () => {
-    if (!data?.data?.length) return;
-    const exportData = data.data.map(inv => ({
+    if (!displayRows.length) return;
+    const exportData = displayRows.map(inv => ({
       'Invoice #': inv.invoiceNo,
       'Customer': inv.partyName || inv.partyId?.name || '-',
       'Invoice Date': inv.invoiceDate ? dayjs(inv.invoiceDate).format('YYYY-MM-DD') : '-',
@@ -77,8 +91,6 @@ const InvoicesList = () => {
     }));
     exportToExcel(exportData, `Invoices_Export_${dayjs().format('YYYYMMDD')}.xlsx`);
   };
-
-  if (isLoading && !data) return <TableSkeleton columns={6} />;
 
   const columns = [
     {
@@ -235,12 +247,10 @@ const InvoicesList = () => {
         border: `1px solid ${BRAND.surface.border}`,
       }}>
         <DataGrid
-          rows={data?.data || []}
+          rows={displayRows}
           columns={columns}
-          getRowId={(row) => row._id}
-          loading={isLoading}
-          paginationMode="server"
-          rowCount={data?.meta?.total || 0}
+          getRowId={(row) => row._id || row.invoiceNo}
+          loading={isLoading && displayRows.length === 0}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           pageSizeOptions={[10, 25, 50]}

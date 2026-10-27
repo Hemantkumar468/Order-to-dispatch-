@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Box, Typography, Paper, TextField, InputAdornment, Button, IconButton, Tooltip, Tabs, Tab, Autocomplete, Skeleton } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { Search, Plus, Eye, Edit3, ShoppingCart, Clock, CheckCircle, AlertCircle, Package } from 'lucide-react';
 import { alpha } from '@mui/material/styles';
 import { useGetOrdersQuery, useGetOrderStatsQuery } from '../../store/api/orderApi';
 import { useGetPartiesQuery } from '../../store/api/partyApi';
+import { mockOrders } from '../../mock-data/mockOrders';
 import OrderCreateModal from './OrderCreateModal';
 import OrderUpdateModal from './OrderUpdateModal';
 import OrderDetailDrawer from './OrderDetailDrawer';
@@ -139,13 +140,38 @@ const OrdersList = () => {
   const { data: statsRes, isLoading: statsLoading } = useGetOrderStatsQuery();
   const { data: partiesData } = useGetPartiesQuery({ limit: 200 });
 
-  const stats = statsRes?.data?.summary || {};
   const parties = partiesData?.data || [];
+
+  const displayRows = useMemo(() => {
+    let rows = (data?.data && data.data.length > 0) ? data.data : mockOrders;
+    if (statusFilter) {
+      rows = rows.filter(r => r.status === statusFilter);
+    }
+    if (partyFilter) {
+      rows = rows.filter(r => r.partyName === partyFilter.name || r.partyCode === partyFilter.code);
+    }
+    if (searchTerm.trim()) {
+      const term = searchTerm.toLowerCase();
+      rows = rows.filter(r =>
+        r.soNumber?.toLowerCase().includes(term) ||
+        r.poNumber?.toLowerCase().includes(term) ||
+        r.partyName?.toLowerCase().includes(term)
+      );
+    }
+    return rows;
+  }, [data, statusFilter, partyFilter, searchTerm]);
+
+  const stats = useMemo(() => {
+    if (statsRes?.data?.summary) return statsRes.data.summary;
+    const totalOrders = mockOrders.length;
+    const totalSkuLines = mockOrders.reduce((sum, o) => sum + (o.items?.length || 0), 0);
+    const totalDispatchedQty = mockOrders.reduce((sum, o) => sum + (o.totalDispatchedQty || 0), 0);
+    const totalBalanceQty = mockOrders.reduce((sum, o) => sum + (o.totalBalanceQty || 0), 0);
+    return { totalOrders, totalSkuLines, totalDispatchedQty, totalBalanceQty };
+  }, [statsRes]);
 
   const handleViewDetail = (order) => { setDetailOrderId(order._id); setIsDetailOpen(true); };
   const handleUpdateClick = (order) => { setSelectedOrder(order); setIsUpdateOpen(true); };
-
-  if (isLoading && !data) return <TableSkeleton columns={8} />;
 
   const columns = [
     {
@@ -378,12 +404,10 @@ const OrdersList = () => {
 
         {/* Data Grid */}
         <DataGrid
-          rows={data?.data || []}
+          rows={displayRows}
           columns={columns}
-          getRowId={(row) => row._id}
-          loading={isLoading}
-          paginationMode="server"
-          rowCount={data?.meta?.total || 0}
+          getRowId={(row) => row._id || row.soNumber}
+          loading={isLoading && displayRows.length === 0}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           pageSizeOptions={[10, 25, 50, 100]}
