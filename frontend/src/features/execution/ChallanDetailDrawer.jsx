@@ -9,6 +9,7 @@ import {
 import { useGetChallanQuery } from '../../store/api/challanApi';
 import { BRAND } from '../../theme/brand';
 import dayjs from 'dayjs';
+import mockChallans from '../../mock-data/mockChallans';
 
 export const formatDcNumber = (val) => {
   if (!val) return 'HK/DC';
@@ -60,8 +61,9 @@ const InfoRow = ({ label, value, href }) => (
 );
 
 const ChallanDetailDrawer = ({ open, onClose, challanId, onPrint }) => {
-  const { data: challanRes, isLoading } = useGetChallanQuery(challanId, { skip: !challanId });
-  const challan = challanRes?.data;
+  const isMockId = typeof challanId === 'string' && challanId.startsWith('mock-');
+  const { data: challanRes, isLoading } = useGetChallanQuery(challanId, { skip: !challanId || isMockId });
+  const challan = challanRes?.data || mockChallans.find(m => m._id === challanId || m.dcNumber === challanId);
 
   const items = challan?.items || [];
   const totalQty = challan?.totalQuantityPcs || items.reduce((s, i) => s + (i.quantityPcs || 0), 0);

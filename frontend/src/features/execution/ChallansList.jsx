@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useMemo } from 'react';
 import { Box, Typography, Paper, IconButton, Tooltip, Button, TextField, InputAdornment } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
 import { Search, Plus, Eye, Printer, Truck, Download } from 'lucide-react';
@@ -9,6 +9,7 @@ import dayjs from 'dayjs';
 import ChallanDetailDrawer, { formatDcNumber } from './ChallanDetailDrawer';
 import ChallanPrintModal from './ChallanPrintModal';
 import { exportToExcel } from '../../utils/exportUtils';
+import mockChallans from '../../mock-data/mockChallans';
 
 const StatusBadge = ({ value }) => {
   const map = {
@@ -55,6 +56,18 @@ const ChallansList = () => {
     search: searchTerm || undefined,
   });
 
+  const displayRows = useMemo(() => {
+    const list = (data?.data && data.data.length > 0) ? data.data : mockChallans;
+    if (!searchTerm) return list;
+    const term = searchTerm.toLowerCase();
+    return list.filter(r => 
+      (r.dcNumber && r.dcNumber.toLowerCase().includes(term)) ||
+      (r.partyName && r.partyName.toLowerCase().includes(term)) ||
+      (r.vehicleNo && r.vehicleNo.toLowerCase().includes(term)) ||
+      (r.transporterName && r.transporterName.toLowerCase().includes(term))
+    );
+  }, [data?.data, searchTerm]);
+
   const handleViewChallan = (row) => {
     setSelectedChallanId(row._id);
     setIsDetailOpen(true);
@@ -66,8 +79,8 @@ const ChallansList = () => {
   };
 
   const handleExport = () => {
-    if (!data?.data?.length) return;
-    const exportData = data.data.map(dc => ({
+    if (!displayRows?.length) return;
+    const exportData = displayRows.map(dc => ({
       'Challan #': formatDcNumber(dc.dcNumber),
       'Customer': dc.partyName || dc.partyId?.name || '-',
       'Dispatch Date': dc.dcDate ? dayjs(dc.dcDate).format('YYYY-MM-DD') : '-',
@@ -81,7 +94,7 @@ const ChallansList = () => {
     exportToExcel(exportData, `Delivery_Challans_${dayjs().format('YYYYMMDD')}.xlsx`);
   };
 
-  if (isLoading && !data) return <TableSkeleton columns={6} />;
+  if (isLoading && !data && !displayRows?.length) return <TableSkeleton columns={6} />;
 
   const columns = [
     {
@@ -93,11 +106,11 @@ const ChallansList = () => {
           px: 1.2,
           py: 0.4,
           borderRadius: '6px',
-          bgcolor: 'rgba(99, 102, 241, 0.12)',
-          border: '1px solid rgba(99, 102, 241, 0.25)',
+          bgcolor: 'rgba(79, 70, 229, 0.08)',
+          border: '1px solid rgba(79, 70, 229, 0.25)',
           display: 'inline-flex',
         }}>
-          <Typography sx={{ fontSize: '0.78rem', fontWeight: 800, color: BRAND.primaryLight }}>
+          <Typography sx={{ fontSize: '0.78rem', fontWeight: 800, color: BRAND.primary }}>
             {formatDcNumber(p.value)}
           </Typography>
         </Box>
@@ -109,7 +122,7 @@ const ChallansList = () => {
       flex: 1,
       minWidth: 200,
       renderCell: (p) => (
-        <Typography variant="body2" fontWeight={600} noWrap sx={{ color: '#f8fafc' }}>
+        <Typography variant="body2" fontWeight={600} noWrap sx={{ color: BRAND.text.primary }}>
           {p.value || p.row.partyId?.name || 'Customer Dispatch'}
         </Typography>
       )
@@ -121,7 +134,7 @@ const ChallansList = () => {
       renderCell: (p) => {
         const dateVal = p.row.dcDate || p.row.dispatchDate || p.value;
         return (
-          <Typography variant="body2" sx={{ color: '#94a3b8', fontWeight: 500 }}>
+          <Typography variant="body2" sx={{ color: BRAND.text.secondary, fontWeight: 500 }}>
             {dateVal ? dayjs(dateVal).format('DD MMM YYYY') : dayjs().format('DD MMM YYYY')}
           </Typography>
         );
@@ -134,8 +147,8 @@ const ChallansList = () => {
       renderCell: (p) => {
         const vehicle = p.row.vehicleNo || p.row.vehicleNumber || p.value || '-';
         return (
-          <Box sx={{ px: 1.2, py: 0.3, borderRadius: '6px', bgcolor: 'rgba(255,255,255,0.04)', border: '1px solid rgba(255,255,255,0.08)' }}>
-            <Typography variant="body2" fontWeight={700} sx={{ color: '#e2e8f0', fontSize: '0.78rem' }}>
+          <Box sx={{ px: 1.2, py: 0.3, borderRadius: '6px', bgcolor: '#f1f5f9', border: `1px solid ${BRAND.surface.border}` }}>
+            <Typography variant="body2" fontWeight={700} sx={{ color: BRAND.text.primary, fontSize: '0.78rem' }}>
               {vehicle}
             </Typography>
           </Box>
@@ -147,7 +160,7 @@ const ChallansList = () => {
       headerName: 'TRANSPORTER',
       width: 180,
       renderCell: (p) => (
-        <Typography variant="body2" sx={{ color: '#cbd5e1', fontWeight: 500 }} noWrap>
+        <Typography variant="body2" sx={{ color: BRAND.text.secondary, fontWeight: 500 }} noWrap>
           {p.value || p.row.dispatchedThrough || 'Direct Fleet'}
         </Typography>
       )
@@ -249,12 +262,12 @@ const ChallansList = () => {
         border: `1px solid ${BRAND.surface.border}`,
       }}>
         <DataGrid
-          rows={data?.data || []}
+          rows={displayRows}
           columns={columns}
           getRowId={(row) => row._id}
           loading={isLoading}
           paginationMode="server"
-          rowCount={data?.meta?.total || 0}
+          rowCount={data?.meta?.total || displayRows.length}
           paginationModel={paginationModel}
           onPaginationModelChange={setPaginationModel}
           pageSizeOptions={[10, 25, 50]}
