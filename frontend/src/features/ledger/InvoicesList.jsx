@@ -189,18 +189,18 @@ const InvoicesList = () => {
           <Box sx={{
             p: 1.25,
             borderRadius: '12px',
-            bgcolor: 'rgba(99, 102, 241, 0.12)',
-            border: '1px solid rgba(99, 102, 241, 0.25)',
-            color: BRAND.primaryLight,
+            bgcolor: 'rgba(79, 70, 229, 0.1)',
+            border: '1px solid rgba(79, 70, 229, 0.25)',
+            color: BRAND.primary,
             display: 'flex'
           }}>
             <FileText size={24} />
           </Box>
           <Box>
-            <Typography variant="h4" fontWeight={900} sx={{ color: '#ffffff', fontSize: { xs: '1.5rem', sm: '2rem' } }}>
+            <Typography variant="h4" fontWeight={900} sx={{ color: BRAND.text.primary, fontSize: { xs: '1.5rem', sm: '2rem' } }}>
               Invoices & FMS
             </Typography>
-            <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+            <Typography variant="body2" sx={{ color: BRAND.text.secondary }}>
               Billing, receivables ledger, and freight management clearance
             </Typography>
           </Box>

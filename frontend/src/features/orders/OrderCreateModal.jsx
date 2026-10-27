@@ -149,24 +149,24 @@ const OrderCreateModal = ({ open, onClose }) => {
       }}
     >
       {/* Header */}
-      <Box sx={{ p: 3, pb: 2.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${BRAND.surface.border}`, bgcolor: BRAND.surface.header }}>
+      <Box sx={{ p: 3, pb: 2.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center', borderBottom: `1px solid ${BRAND.surface.border}`, bgcolor: '#ffffff' }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
           <Box sx={{
             p: 1.25,
             borderRadius: '12px',
-            bgcolor: 'rgba(99, 102, 241, 0.15)',
-            border: '1px solid rgba(99, 102, 241, 0.3)',
-            color: BRAND.primaryLight,
+            bgcolor: 'rgba(79, 70, 229, 0.1)',
+            border: '1px solid rgba(79, 70, 229, 0.25)',
+            color: BRAND.primary,
             display: 'flex'
           }}>
             <FileText size={22} />
           </Box>
           <Box>
-            <Typography variant="h6" fontWeight={800} sx={{ color: '#ffffff' }}>New Sales Order</Typography>
-            <Typography variant="caption" sx={{ color: '#94a3b8' }}>Order Booking Form — Auto SO# Generation</Typography>
+            <Typography variant="h6" fontWeight={800} sx={{ color: BRAND.text.primary }}>New Sales Order</Typography>
+            <Typography variant="caption" sx={{ color: BRAND.text.secondary }}>Order Booking Form — Auto SO# Generation</Typography>
           </Box>
         </Box>
-        <IconButton onClick={onClose} size="small" sx={{ color: '#94a3b8', '&:hover': { color: '#ffffff' } }}>
+        <IconButton onClick={onClose} size="small" sx={{ color: BRAND.text.secondary, '&:hover': { color: BRAND.primary } }}>
           <X size={20} />
         </IconButton>
       </Box>
@@ -197,8 +197,8 @@ const OrderCreateModal = ({ open, onClose }) => {
             renderOption={(props, opt) => (
               <li {...props} key={opt._id}>
                 <Box>
-                  <Typography variant="body2" fontWeight={700} sx={{ color: '#ffffff' }}>{opt.name}</Typography>
-                  <Typography variant="caption" sx={{ color: '#94a3b8' }}>{opt.location} • {opt.code}</Typography>
+                  <Typography variant="body2" fontWeight={700} sx={{ color: BRAND.text.primary }}>{opt.name}</Typography>
+                  <Typography variant="caption" sx={{ color: BRAND.text.secondary }}>{opt.location} • {opt.code}</Typography>
                 </Box>
               </li>
             )}
@@ -277,50 +277,50 @@ const OrderCreateModal = ({ open, onClose }) => {
                       onChange={(_, sku) => handleSkuChange(index, sku)}
                       value={skus.find(s => s._id === item.skuId) || null}
                       size="small"
-                      renderInput={(params) => <TextField {...params} placeholder="Select SKU..." variant="standard" InputProps={{ ...params.InputProps, disableUnderline: true, sx: { fontSize: '0.8rem', color: '#ffffff' } }} />}
+                      renderInput={(params) => <TextField {...params} placeholder="Select SKU..." variant="standard" InputProps={{ ...params.InputProps, disableUnderline: true, sx: { fontSize: '0.8rem', color: BRAND.text.primary } }} />}
                       isOptionEqualToValue={(opt, val) => opt._id === val?._id}
                       renderOption={(props, opt) => (
                         <li {...props} key={opt._id}>
                           <Box>
-                            <Typography variant="body2" fontWeight={700} sx={{ color: '#ffffff' }}>{opt.name}</Typography>
-                            <Typography variant="caption" sx={{ color: '#94a3b8' }}>{opt.code}</Typography>
+                            <Typography variant="body2" fontWeight={700} sx={{ color: BRAND.text.primary }}>{opt.name}</Typography>
+                            <Typography variant="caption" sx={{ color: BRAND.text.secondary }}>{opt.code}</Typography>
                           </Box>
                         </li>
                       )}
                     />
                   </TableCell>
-                  <TableCell sx={{ p: 1, borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
-                    <Typography variant="body2" sx={{ color: BRAND.primaryLight, fontSize: '0.75rem', fontWeight: 700 }}>
+                  <TableCell sx={{ p: 1, borderBottom: `1px solid ${BRAND.surface.border}` }}>
+                    <Typography variant="body2" sx={{ color: BRAND.primary, fontSize: '0.75rem', fontWeight: 700 }}>
                       {item.skuCode || '—'}
                     </Typography>
                   </TableCell>
-                  <TableCell sx={{ p: 1, borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                  <TableCell sx={{ p: 1, borderBottom: `1px solid ${BRAND.surface.border}` }}>
                     <TextField
                       variant="standard" type="number" value={item.orderQty}
                       onChange={(e) => handleItemChange(index, 'orderQty', e.target.value)}
-                      InputProps={{ disableUnderline: true, sx: { fontSize: '0.82rem', fontWeight: 800, color: '#ffffff' } }}
+                      InputProps={{ disableUnderline: true, sx: { fontSize: '0.82rem', fontWeight: 800, color: BRAND.text.primary } }}
                       placeholder="0"
                     />
                   </TableCell>
-                  <TableCell sx={{ p: 1, borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                  <TableCell sx={{ p: 1, borderBottom: `1px solid ${BRAND.surface.border}` }}>
                     <TextField
                       variant="standard" value={item.asnCode}
                       onChange={(e) => handleItemChange(index, 'asnCode', e.target.value)}
-                      InputProps={{ disableUnderline: true, sx: { fontSize: '0.75rem', color: '#cbd5e1' } }}
+                      InputProps={{ disableUnderline: true, sx: { fontSize: '0.75rem', color: BRAND.text.secondary } }}
                       placeholder="—"
                     />
                   </TableCell>
-                  <TableCell sx={{ p: 1, borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                  <TableCell sx={{ p: 1, borderBottom: `1px solid ${BRAND.surface.border}` }}>
                     <TextField
                       variant="standard" value={item.remark}
                       onChange={(e) => handleItemChange(index, 'remark', e.target.value)}
-                      InputProps={{ disableUnderline: true, sx: { fontSize: '0.75rem', color: '#cbd5e1' } }}
+                      InputProps={{ disableUnderline: true, sx: { fontSize: '0.75rem', color: BRAND.text.secondary } }}
                       placeholder="—"
                     />
                   </TableCell>
-                  <TableCell sx={{ p: 0.5, borderBottom: '1px solid rgba(255,255,255,0.04)' }}>
+                  <TableCell sx={{ p: 0.5, borderBottom: `1px solid ${BRAND.surface.border}` }}>
                     <IconButton size="small" onClick={() => removeItem(index)} disabled={items.length === 1}
-                      sx={{ color: '#64748b', '&:hover': { color: BRAND.errorLight } }}>
+                      sx={{ color: '#64748b', '&:hover': { color: BRAND.error } }}>
                       <Trash2 size={14} />
                     </IconButton>
                   </TableCell>
@@ -336,23 +336,23 @@ const OrderCreateModal = ({ open, onClose }) => {
           flexDirection: { xs: 'column', sm: 'row' },
           gap: { xs: 1.5, sm: 3 }, 
           p: 2.2, 
-          bgcolor: 'rgba(99, 102, 241, 0.08)',
-          border: '1px solid rgba(99, 102, 241, 0.2)',
+          bgcolor: 'rgba(79, 70, 229, 0.06)',
+          border: '1px solid rgba(79, 70, 229, 0.2)',
           borderRadius: '12px' 
         }}>
           <Box>
-            <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 700 }}>TOTAL SKUS</Typography>
-            <Typography variant="h6" fontWeight={900} sx={{ color: '#ffffff' }}>{validItems.length}</Typography>
+            <Typography variant="caption" sx={{ color: BRAND.text.secondary, fontWeight: 700 }}>TOTAL SKUS</Typography>
+            <Typography variant="h6" fontWeight={900} sx={{ color: BRAND.text.primary }}>{validItems.length}</Typography>
           </Box>
           <Box>
-            <Typography variant="caption" sx={{ color: '#94a3b8', fontWeight: 700 }}>TOTAL ORDER QTY</Typography>
-            <Typography variant="h6" fontWeight={900} sx={{ color: BRAND.primaryLight }}>{totalQty.toLocaleString('en-IN')}</Typography>
+            <Typography variant="caption" sx={{ color: BRAND.text.secondary, fontWeight: 700 }}>TOTAL ORDER QTY</Typography>
+            <Typography variant="h6" fontWeight={900} sx={{ color: BRAND.primary }}>{totalQty.toLocaleString('en-IN')}</Typography>
           </Box>
         </Box>
       </Box>
 
       {/* Footer Actions */}
-      <Box sx={{ p: 2.5, borderTop: `1px solid ${BRAND.surface.border}`, display: 'flex', gap: 2, bgcolor: BRAND.surface.header }}>
+      <Box sx={{ p: 2.5, borderTop: `1px solid ${BRAND.surface.border}`, display: 'flex', gap: 2, bgcolor: '#ffffff' }}>
         <Button fullWidth variant="outlined" onClick={onClose}>
           Cancel
         </Button>

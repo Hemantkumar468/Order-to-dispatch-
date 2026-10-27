@@ -1,62 +1,62 @@
 /**
- * Luxury Brand Design System Tokens
- * Curated palette: Royal Electric Indigo, Amethyst Purple, Emerald Glow, Amber Topaz, Rose Crimson, Cyber Cyan.
+ * Luxury Brand Design System Tokens - Executive Modern Light Theme
+ * Curated palette: Deep Electric Indigo, Royal Violet, Emerald Mint, Amber Gold, Crimson Rose, Ocean Cyan.
  */
 export const BRAND = {
-  primary: '#6366f1',       // Electric Indigo
-  primaryLight: '#818cf8',  // Soft Indigo Glow
-  primaryDark: '#4f46e5',   // Deep Indigo
-  primaryGradient: 'linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%)',
-  primaryGlow: '0 4px 20px rgba(99, 102, 241, 0.35)',
+  primary: '#4f46e5',       // Deep Electric Indigo
+  primaryLight: '#6366f1',  // Vibrant Indigo Glow
+  primaryDark: '#3730a3',   // Royal Navy Indigo
+  primaryGradient: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
+  primaryGlow: '0 4px 14px rgba(79, 70, 229, 0.25)',
 
-  secondary: '#a855f7',     // Amethyst Violet
-  secondaryLight: '#c084fc',
-  secondaryDark: '#7e22ce',
+  secondary: '#7c3aed',     // Royal Violet
+  secondaryLight: '#9333ea',
+  secondaryDark: '#5b21b6',
 
-  success: '#10b981',       // Emerald Mint
-  successLight: '#34d399',
-  successDark: '#059669',
-  successBg: 'rgba(16, 185, 129, 0.12)',
-  successBorder: 'rgba(16, 185, 129, 0.25)',
+  success: '#059669',       // Emerald Mint
+  successLight: '#10b981',
+  successDark: '#047857',
+  successBg: 'rgba(16, 185, 129, 0.1)',
+  successBorder: 'rgba(16, 185, 129, 0.3)',
 
-  warning: '#f59e0b',       // Amber Topaz
-  warningLight: '#fbbf24',
-  warningDark: '#d97706',
-  warningBg: 'rgba(245, 158, 11, 0.12)',
-  warningBorder: 'rgba(245, 158, 11, 0.25)',
+  warning: '#d97706',       // Amber Gold
+  warningLight: '#f59e0b',
+  warningDark: '#b45309',
+  warningBg: 'rgba(245, 158, 11, 0.1)',
+  warningBorder: 'rgba(245, 158, 11, 0.3)',
 
-  error: '#f43f5e',         // Rose Crimson
-  errorLight: '#fb7185',
-  errorDark: '#e11d48',
-  errorBg: 'rgba(244, 63, 94, 0.12)',
-  errorBorder: 'rgba(244, 63, 94, 0.25)',
+  error: '#dc2626',         // Crimson Rose
+  errorLight: '#ef4444',
+  errorDark: '#991b1b',
+  errorBg: 'rgba(239, 68, 68, 0.1)',
+  errorBorder: 'rgba(239, 68, 68, 0.28)',
 
-  info: '#06b6d4',          // Cyber Cyan
-  infoLight: '#22d3ee',
-  infoDark: '#0891b2',
-  infoBg: 'rgba(6, 182, 212, 0.12)',
-  infoBorder: 'rgba(6, 182, 212, 0.25)',
+  info: '#0284c7',          // Ocean Cyan
+  infoLight: '#0ea5e9',
+  infoDark: '#0369a1',
+  infoBg: 'rgba(2, 132, 199, 0.1)',
+  infoBorder: 'rgba(2, 132, 199, 0.28)',
 
-  wip: '#8b5cf6',           // Royal Purple
-  wipBg: 'rgba(139, 92, 246, 0.12)',
-  wipBorder: 'rgba(139, 92, 246, 0.25)',
+  wip: '#7c3aed',           // Modern Purple
+  wipBg: 'rgba(124, 58, 237, 0.1)',
+  wipBorder: 'rgba(124, 58, 237, 0.28)',
 
   surface: {
-    bg: '#0b0f19',          // Deep Obsidian Midnight Canvas
-    sidebar: '#080c14',     // Frosted Obsidian
-    card: '#111827',        // Elevated Card Surface
-    cardHover: '#162032',   // Card Hover
-    header: '#0f172a',      // Table Header Surface
-    border: 'rgba(255, 255, 255, 0.08)',
-    borderHover: 'rgba(255, 255, 255, 0.16)',
-    inputBg: 'rgba(255, 255, 255, 0.03)',
+    bg: '#f8fafc',          // Clean Slate Light Background
+    sidebar: '#ffffff',     // Crisp White Sidebar
+    card: '#ffffff',        // Elevated Clean Card Surface
+    cardHover: '#f8fafc',   // Card Hover Soft Slate
+    header: '#f8fafc',      // Table Header Surface
+    border: '#e2e8f0',      // Soft Slate Border
+    borderHover: '#cbd5e1', // Slate Border on Hover
+    inputBg: '#ffffff',     // Clean White Input Background
   },
 
   text: {
-    primary: '#f8fafc',
-    secondary: '#94a3b8',
-    muted: '#64748b',
-    glow: '#ffffff',
+    primary: '#0f172a',     // Deep Slate 900
+    secondary: '#475569',   // Slate 600
+    muted: '#94a3b8',       // Slate 400
+    glow: '#0f172a',
   }
 };
 

@@ -92,28 +92,28 @@ const PaymentRecordModal = ({ open, onClose, invoice }) => {
       fullWidth
       PaperProps={{
         sx: {
-          bgcolor: BRAND.surface.card,
+          bgcolor: '#ffffff',
           border: `1px solid ${BRAND.surface.border}`,
           borderRadius: '16px',
-          color: '#ffffff',
+          color: BRAND.text.primary,
         }
       }}
     >
       <DialogTitle sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', p: 2.5, borderBottom: `1px solid ${BRAND.surface.border}` }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-          <Box sx={{ p: 1, borderRadius: '8px', bgcolor: BRAND.successBg, border: `1px solid ${BRAND.successBorder}`, color: BRAND.successLight, display: 'flex' }}>
+          <Box sx={{ p: 1, borderRadius: '8px', bgcolor: BRAND.successBg, border: `1px solid ${BRAND.successBorder}`, color: BRAND.success, display: 'flex' }}>
             <DollarSign size={20} />
           </Box>
           <Box>
-            <Typography variant="h6" fontWeight={800} sx={{ color: '#ffffff', fontSize: '1.1rem' }}>
+            <Typography variant="h6" fontWeight={800} sx={{ color: BRAND.text.primary, fontSize: '1.1rem' }}>
               Record Payment
             </Typography>
-            <Typography variant="caption" sx={{ color: '#94a3b8' }}>
+            <Typography variant="caption" sx={{ color: BRAND.text.secondary }}>
               {invoice.invoiceNo} • {invoice.partyName}
             </Typography>
           </Box>
         </Box>
-        <IconButton onClick={onClose} size="small" sx={{ color: '#94a3b8', '&:hover': { color: '#ffffff' } }}>
+        <IconButton onClick={onClose} size="small" sx={{ color: BRAND.text.secondary, '&:hover': { color: BRAND.primary } }}>
           <X size={18} />
         </IconButton>
       </DialogTitle>
@@ -121,17 +121,17 @@ const PaymentRecordModal = ({ open, onClose, invoice }) => {
       <DialogContent sx={{ p: 3 }}>
         <Stack spacing={2.5}>
           <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 1.5 }}>
-            <Box sx={{ p: 1.5, bgcolor: 'rgba(255,255,255,0.02)', border: `1px solid ${BRAND.surface.border}`, borderRadius: '10px', textAlign: 'center' }}>
-              <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>Invoice Total</Typography>
-              <Typography sx={{ fontSize: '1rem', fontWeight: 800, color: '#ffffff', mt: 0.5 }}>₹{total.toLocaleString('en-IN')}</Typography>
+            <Box sx={{ p: 1.5, bgcolor: '#f8fafc', border: `1px solid ${BRAND.surface.border}`, borderRadius: '10px', textAlign: 'center' }}>
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: BRAND.text.secondary, textTransform: 'uppercase' }}>Invoice Total</Typography>
+              <Typography sx={{ fontSize: '1rem', fontWeight: 800, color: BRAND.text.primary, mt: 0.5 }}>₹{total.toLocaleString('en-IN')}</Typography>
             </Box>
             <Box sx={{ p: 1.5, bgcolor: BRAND.successBg, border: `1px solid ${BRAND.successBorder}`, borderRadius: '10px', textAlign: 'center' }}>
-              <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>Received</Typography>
-              <Typography sx={{ fontSize: '1rem', fontWeight: 800, color: BRAND.successLight, mt: 0.5 }}>₹{currentReceived.toLocaleString('en-IN')}</Typography>
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: BRAND.text.secondary, textTransform: 'uppercase' }}>Received</Typography>
+              <Typography sx={{ fontSize: '1rem', fontWeight: 800, color: BRAND.success, mt: 0.5 }}>₹{currentReceived.toLocaleString('en-IN')}</Typography>
             </Box>
             <Box sx={{ p: 1.5, bgcolor: currentBalance > 0 ? BRAND.errorBg : BRAND.successBg, border: `1px solid ${currentBalance > 0 ? BRAND.errorBorder : BRAND.successBorder}`, borderRadius: '10px', textAlign: 'center' }}>
-              <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase' }}>Balance Due</Typography>
-              <Typography sx={{ fontSize: '1rem', fontWeight: 800, color: currentBalance > 0 ? BRAND.errorLight : BRAND.successLight, mt: 0.5 }}>₹{currentBalance.toLocaleString('en-IN')}</Typography>
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: BRAND.text.secondary, textTransform: 'uppercase' }}>Balance Due</Typography>
+              <Typography sx={{ fontSize: '1rem', fontWeight: 800, color: currentBalance > 0 ? BRAND.error : BRAND.success, mt: 0.5 }}>₹{currentBalance.toLocaleString('en-IN')}</Typography>
             </Box>
           </Box>
 

@@ -69,8 +69,8 @@ const StatCard = ({ title, value, icon: Icon, color, lightColor, loading }) => (
         <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: '#94a3b8', textTransform: 'uppercase', letterSpacing: '0.05em', mb: 0.5 }}>
           {title}
         </Typography>
-        {loading ? <Skeleton width={60} height={32} sx={{ bgcolor: 'rgba(255,255,255,0.05)' }} /> : (
-          <Typography sx={{ fontSize: '1.6rem', fontWeight: 900, color: '#ffffff', lineHeight: 1.2 }}>
+        {loading ? <Skeleton width={60} height={32} sx={{ bgcolor: 'rgba(0,0,0,0.06)' }} /> : (
+          <Typography sx={{ fontSize: '1.6rem', fontWeight: 900, color: BRAND.text.primary, lineHeight: 1.2 }}>
             {value}
           </Typography>
         )}
@@ -207,7 +207,7 @@ const OrdersList = () => {
       width: 110,
       align: 'right',
       headerAlign: 'right',
-      renderCell: (p) => <Typography variant="body2" fontWeight={700} sx={{ color: '#ffffff', fontSize: '0.82rem' }}>{p.value?.toLocaleString('en-IN') || '0'}</Typography>
+      renderCell: (p) => <Typography variant="body2" fontWeight={700} sx={{ color: BRAND.text.primary, fontSize: '0.82rem' }}>{p.value?.toLocaleString('en-IN') || '0'}</Typography>
     },
     {
       field: 'totalDispatchedQty',
@@ -215,7 +215,7 @@ const OrdersList = () => {
       width: 110,
       align: 'right',
       headerAlign: 'right',
-      renderCell: (p) => <Typography variant="body2" fontWeight={700} sx={{ color: BRAND.successLight, fontSize: '0.82rem' }}>{p.value?.toLocaleString('en-IN') || '0'}</Typography>
+      renderCell: (p) => <Typography variant="body2" fontWeight={700} sx={{ color: BRAND.success, fontSize: '0.82rem' }}>{p.value?.toLocaleString('en-IN') || '0'}</Typography>
     },
     {
       field: 'totalBalanceQty',
@@ -224,7 +224,7 @@ const OrdersList = () => {
       align: 'right',
       headerAlign: 'right',
       renderCell: (p) => (
-        <Typography variant="body2" fontWeight={700} sx={{ color: p.value > 0 ? BRAND.errorLight : BRAND.successLight, fontSize: '0.82rem' }}>
+        <Typography variant="body2" fontWeight={700} sx={{ color: p.value > 0 ? BRAND.error : BRAND.success, fontSize: '0.82rem' }}>
           {p.value?.toLocaleString('en-IN') || '0'}
         </Typography>
       )
@@ -251,12 +251,12 @@ const OrdersList = () => {
       renderCell: (p) => (
         <Box sx={{ display: 'flex', gap: 0.5 }} onClick={(e) => e.stopPropagation()}>
           <Tooltip title="Edit Workflow">
-            <IconButton size="small" onClick={() => handleUpdateClick(p.row)} sx={{ color: BRAND.primaryLight }}>
+            <IconButton size="small" onClick={() => handleUpdateClick(p.row)} sx={{ color: BRAND.primary }}>
               <Edit3 size={15} />
             </IconButton>
           </Tooltip>
           <Tooltip title="View Details">
-            <IconButton size="small" onClick={() => handleViewDetail(p.row)} sx={{ color: '#94a3b8', '&:hover': { color: '#ffffff' } }}>
+            <IconButton size="small" onClick={() => handleViewDetail(p.row)} sx={{ color: '#94a3b8', '&:hover': { color: BRAND.primary } }}>
               <Eye size={15} />
             </IconButton>
           </Tooltip>
@@ -271,10 +271,10 @@ const OrdersList = () => {
       {/* Header */}
       <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: { xs: 'flex-start', sm: 'center' }, flexDirection: { xs: 'column', sm: 'row' }, gap: 2 }}>
         <Box>
-          <Typography variant="h4" fontWeight={900} sx={{ color: '#ffffff', fontSize: { xs: '1.5rem', sm: '2rem' } }}>
+          <Typography variant="h4" fontWeight={900} sx={{ color: BRAND.text.primary, fontSize: { xs: '1.5rem', sm: '2rem' } }}>
             Sales Orders
           </Typography>
-          <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+          <Typography variant="body2" sx={{ color: BRAND.text.secondary }}>
             Order booking, tracking, line fulfillment & dispatch status
           </Typography>
         </Box>
@@ -294,10 +294,10 @@ const OrdersList = () => {
         gridTemplateColumns: { xs: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' }, 
         gap: 2 
       }}>
-        <StatCard title="Total Orders" value={stats.totalOrders || 0} icon={ShoppingCart} color={BRAND.primary} lightColor={BRAND.primaryLight} loading={statsLoading} />
-        <StatCard title="Total SKU Lines" value={stats.totalSkuLines || 0} icon={Package} color={BRAND.wip} lightColor={BRAND.secondaryLight} loading={statsLoading} />
-        <StatCard title="Dispatched Qty" value={(stats.totalDispatchedQty || 0).toLocaleString('en-IN')} icon={CheckCircle} color={BRAND.success} lightColor={BRAND.successLight} loading={statsLoading} />
-        <StatCard title="Pending Balance" value={(stats.totalBalanceQty || 0).toLocaleString('en-IN')} icon={AlertCircle} color={BRAND.error} lightColor={BRAND.errorLight} loading={statsLoading} />
+        <StatCard title="Total Orders" value={stats.totalOrders || 0} icon={ShoppingCart} color={BRAND.primary} lightColor={BRAND.primary} loading={statsLoading} />
+        <StatCard title="Total SKU Lines" value={stats.totalSkuLines || 0} icon={Package} color={BRAND.wip} lightColor={BRAND.secondary} loading={statsLoading} />
+        <StatCard title="Dispatched Qty" value={(stats.totalDispatchedQty || 0).toLocaleString('en-IN')} icon={CheckCircle} color={BRAND.success} lightColor={BRAND.success} loading={statsLoading} />
+        <StatCard title="Pending Balance" value={(stats.totalBalanceQty || 0).toLocaleString('en-IN')} icon={AlertCircle} color={BRAND.error} lightColor={BRAND.error} loading={statsLoading} />
       </Box>
 
       {/* Filters Bar & Data Grid */}
@@ -331,8 +331,8 @@ const OrdersList = () => {
                 px: 1.8,
                 fontSize: '0.78rem',
                 fontWeight: 700,
-                color: '#94a3b8',
-                '&.Mui-selected': { color: '#ffffff' }
+                color: BRAND.text.secondary,
+                '&.Mui-selected': { color: BRAND.primary }
               },
               '& .MuiTabs-indicator': {
                 backgroundColor: BRAND.primary,

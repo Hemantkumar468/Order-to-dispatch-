@@ -80,7 +80,7 @@ const PPCPlanning = () => {
       type: 'number',
       align: 'right',
       headerAlign: 'right',
-      renderCell: (p) => <Typography variant="body2" fontWeight={700} sx={{ color: '#ffffff' }}>{p.value?.toLocaleString('en-IN') || '-'}</Typography>
+      renderCell: (p) => <Typography variant="body2" fontWeight={700} sx={{ color: BRAND.text.primary }}>{p.value?.toLocaleString('en-IN') || '-'}</Typography>
     },
     {
       field: 'balanceQty',
@@ -89,7 +89,7 @@ const PPCPlanning = () => {
       type: 'number',
       align: 'right',
       headerAlign: 'right',
-      renderCell: (p) => <Typography variant="body2" fontWeight={700} sx={{ color: BRAND.errorLight }}>{p.value?.toLocaleString('en-IN') || '-'}</Typography>
+      renderCell: (p) => <Typography variant="body2" fontWeight={700} sx={{ color: BRAND.error }}>{p.value?.toLocaleString('en-IN') || '-'}</Typography>
     },
     {
       field: 'totalQtyToProduce',
@@ -98,7 +98,7 @@ const PPCPlanning = () => {
       type: 'number',
       align: 'right',
       headerAlign: 'right',
-      renderCell: (p) => <Typography variant="body2" fontWeight={700} sx={{ color: BRAND.warningLight }}>{p.value?.toLocaleString('en-IN') || '-'}</Typography>
+      renderCell: (p) => <Typography variant="body2" fontWeight={700} sx={{ color: BRAND.warning }}>{p.value?.toLocaleString('en-IN') || '-'}</Typography>
     },
   ];
 
@@ -112,18 +112,18 @@ const PPCPlanning = () => {
           <Box sx={{
             p: 1.25,
             borderRadius: '12px',
-            bgcolor: 'rgba(99, 102, 241, 0.12)',
-            border: '1px solid rgba(99, 102, 241, 0.25)',
-            color: BRAND.primaryLight,
+            bgcolor: 'rgba(79, 70, 229, 0.1)',
+            border: '1px solid rgba(79, 70, 229, 0.25)',
+            color: BRAND.primary,
             display: 'flex'
           }}>
             <Layers size={24} />
           </Box>
           <Box>
-            <Typography variant="h4" fontWeight={900} sx={{ color: '#ffffff', fontSize: { xs: '1.5rem', sm: '2rem' } }}>
+            <Typography variant="h4" fontWeight={900} sx={{ color: BRAND.text.primary, fontSize: { xs: '1.5rem', sm: '2rem' } }}>
               PPC Schedule vs Supply
             </Typography>
-            <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+            <Typography variant="body2" sx={{ color: BRAND.text.secondary }}>
               Production planning matrix, daily target vs actual dispatch tracking
             </Typography>
           </Box>

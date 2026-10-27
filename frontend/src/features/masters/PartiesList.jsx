@@ -133,18 +133,18 @@ const PartiesList = () => {
           <Box sx={{
             p: 1.25,
             borderRadius: '12px',
-            bgcolor: 'rgba(99, 102, 241, 0.12)',
-            border: '1px solid rgba(99, 102, 241, 0.25)',
-            color: BRAND.primaryLight,
+            bgcolor: 'rgba(79, 70, 229, 0.1)',
+            border: '1px solid rgba(79, 70, 229, 0.25)',
+            color: BRAND.primary,
             display: 'flex'
           }}>
             <Users size={24} />
           </Box>
           <Box>
-            <Typography variant="h4" fontWeight={800} sx={{ color: '#ffffff', fontSize: { xs: '1.5rem', sm: '2rem' } }}>
+            <Typography variant="h4" fontWeight={800} sx={{ color: BRAND.text.primary, fontSize: { xs: '1.5rem', sm: '2rem' } }}>
               Parties Master
             </Typography>
-            <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+            <Typography variant="body2" sx={{ color: BRAND.text.secondary }}>
               Manage customer accounts, credit parameters, and fulfillment lead times
             </Typography>
           </Box>

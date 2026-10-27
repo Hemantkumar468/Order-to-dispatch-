@@ -173,7 +173,7 @@ const ChallansList = () => {
                 e.stopPropagation();
                 handleViewChallan(p.row);
               }}
-              sx={{ color: BRAND.primaryLight, '&:hover': { bgcolor: 'rgba(99, 102, 241, 0.15)' } }}
+              sx={{ color: BRAND.primary, '&:hover': { bgcolor: 'rgba(79, 70, 229, 0.08)' } }}
             >
               <Eye size={15} />
             </IconButton>
@@ -185,7 +185,7 @@ const ChallansList = () => {
                 e.stopPropagation();
                 handlePrintChallan(p.row);
               }}
-              sx={{ color: '#94a3b8', '&:hover': { color: '#ffffff', bgcolor: 'rgba(255,255,255,0.06)' } }}
+              sx={{ color: BRAND.text.secondary, '&:hover': { color: BRAND.primary, bgcolor: '#f1f5f9' } }}
             >
               <Printer size={15} />
             </IconButton>
@@ -203,18 +203,18 @@ const ChallansList = () => {
           <Box sx={{
             p: 1.25,
             borderRadius: '12px',
-            bgcolor: 'rgba(99, 102, 241, 0.12)',
-            border: '1px solid rgba(99, 102, 241, 0.25)',
-            color: BRAND.primaryLight,
+            bgcolor: 'rgba(79, 70, 229, 0.1)',
+            border: '1px solid rgba(79, 70, 229, 0.25)',
+            color: BRAND.primary,
             display: 'flex'
           }}>
             <Truck size={24} />
           </Box>
           <Box>
-            <Typography variant="h4" fontWeight={900} sx={{ color: '#ffffff', fontSize: { xs: '1.5rem', sm: '2rem' } }}>
+            <Typography variant="h4" fontWeight={900} sx={{ color: BRAND.text.primary, fontSize: { xs: '1.5rem', sm: '2rem' } }}>
               Delivery Challans
             </Typography>
-            <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+            <Typography variant="body2" sx={{ color: BRAND.text.secondary }}>
               Dispatch documentation, fleet tracking, and gate pass management
             </Typography>
           </Box>

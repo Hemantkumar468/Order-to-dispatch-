@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Divider, IconButton, AppBar, Toolbar, useTheme, useMediaQuery, alpha } from '@mui/material';
-import { Menu as MenuIcon, LayoutDashboard, ShoppingCart, Truck, FileText, Package, Users, ShieldCheck, Activity } from 'lucide-react';
+import { Box, Drawer, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Typography, Divider, IconButton, AppBar, Toolbar, useTheme, useMediaQuery } from '@mui/material';
+import { Menu as MenuIcon, LayoutDashboard, ShoppingCart, Truck, FileText, Package, Users, Activity } from 'lucide-react';
 import { useNavigate, useLocation, Outlet } from 'react-router-dom';
 import { BRAND } from '../theme/brand';
 
@@ -42,7 +42,7 @@ const MainLayout = () => {
             height: 42,
             borderRadius: '12px',
             background: BRAND.primaryGradient,
-            boxShadow: '0 0 20px rgba(99, 102, 241, 0.45)',
+            boxShadow: BRAND.primaryGlow,
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
@@ -51,24 +51,24 @@ const MainLayout = () => {
             <Typography sx={{ fontSize: '1.25rem', fontWeight: 900, color: '#fff', letterSpacing: '-0.02em' }}>H</Typography>
           </Box>
           <Box sx={{ minWidth: 0 }}>
-            <Typography sx={{ fontSize: '1.05rem', fontWeight: 800, color: '#f8fafc', lineHeight: 1.2, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
+            <Typography sx={{ fontSize: '1.05rem', fontWeight: 800, color: BRAND.text.primary, lineHeight: 1.2, letterSpacing: '-0.01em', whiteSpace: 'nowrap' }}>
               Hemant Global
             </Typography>
             <Box sx={{ display: 'flex', alignItems: 'center', gap: 0.8, mt: 0.3 }}>
-              <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: '#10b981', boxShadow: '0 0 8px #10b981' }} />
-              <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: '#94a3b8', letterSpacing: '0.08em' }}>
+              <Box sx={{ width: 6, height: 6, borderRadius: '50%', bgcolor: '#10b981', boxShadow: '0 0 6px #10b981' }} />
+              <Typography sx={{ fontSize: '0.65rem', fontWeight: 700, color: BRAND.text.secondary, letterSpacing: '0.08em' }}>
                 ENTERPRISE ERP
               </Typography>
             </Box>
           </Box>
         </Box>
-        <Divider sx={{ width: '100%', mt: 2, borderColor: 'rgba(255, 255, 255, 0.08)' }} />
+        <Divider sx={{ width: '100%', mt: 2, borderColor: BRAND.surface.border }} />
       </Box>
       
       {/* Navigation Links */}
       <List sx={{ px: 2, flexGrow: 1, py: 0 }}>
         {menuItems.map((item, index) => {
-          if (item.divider) return <Divider key={`div-${index}`} sx={{ my: 1.5, borderColor: 'rgba(255, 255, 255, 0.06)' }} />;
+          if (item.divider) return <Divider key={`div-${index}`} sx={{ my: 1.5, borderColor: BRAND.surface.border }} />;
           
           const isSelected = location.pathname.startsWith(item.path);
           
@@ -83,25 +83,25 @@ const MainLayout = () => {
                   px: 1.5,
                   position: 'relative',
                   transition: 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)',
-                  bgcolor: isSelected ? 'rgba(99, 102, 241, 0.16)' : 'transparent',
-                  border: isSelected ? '1px solid rgba(99, 102, 241, 0.35)' : '1px solid transparent',
-                  boxShadow: isSelected ? '0 4px 16px rgba(99, 102, 241, 0.2)' : 'none',
+                  bgcolor: isSelected ? 'rgba(79, 70, 229, 0.08)' : 'transparent',
+                  border: isSelected ? '1px solid rgba(79, 70, 229, 0.25)' : '1px solid transparent',
+                  boxShadow: isSelected ? '0 2px 8px rgba(79, 70, 229, 0.1)' : 'none',
                   '&.Mui-selected': {
-                    bgcolor: 'rgba(99, 102, 241, 0.16)',
-                    '&:hover': { bgcolor: 'rgba(99, 102, 241, 0.25)' },
+                    bgcolor: 'rgba(79, 70, 229, 0.08)',
+                    '&:hover': { bgcolor: 'rgba(79, 70, 229, 0.14)' },
                   },
                   '&:hover': {
-                    bgcolor: 'rgba(255, 255, 255, 0.05)',
-                    borderColor: 'rgba(255, 255, 255, 0.1)',
+                    bgcolor: '#f1f5f9',
+                    borderColor: '#e2e8f0',
                   }
                 }}
               >
                 <ListItemIcon sx={{
                   minWidth: 36,
-                  color: isSelected ? BRAND.primaryLight : '#64748b',
+                  color: isSelected ? BRAND.primary : '#64748b',
                   transition: 'color 0.2s ease',
                   '& svg': {
-                    filter: isSelected ? 'drop-shadow(0 0 8px rgba(129, 140, 248, 0.6))' : 'none'
+                    filter: isSelected ? 'drop-shadow(0 0 6px rgba(79, 70, 229, 0.35))' : 'none'
                   }
                 }}>
                   {item.icon}
@@ -111,7 +111,7 @@ const MainLayout = () => {
                   primaryTypographyProps={{ 
                     fontWeight: isSelected ? 700 : 500,
                     fontSize: '0.875rem',
-                    color: isSelected ? '#ffffff' : '#94a3b8',
+                    color: isSelected ? BRAND.primary : BRAND.text.secondary,
                     letterSpacing: '0.01em',
                   }} 
                 />
@@ -122,14 +122,14 @@ const MainLayout = () => {
       </List>
 
       {/* Footer Info Widget */}
-      <Box sx={{ p: 2, m: 2, borderRadius: '12px', bgcolor: 'rgba(255, 255, 255, 0.02)', border: '1px solid rgba(255, 255, 255, 0.06)' }}>
+      <Box sx={{ p: 2, m: 2, borderRadius: '12px', bgcolor: '#f8fafc', border: `1px solid ${BRAND.surface.border}` }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 0.5 }}>
-          <Activity size={14} color="#10b981" />
-          <Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: '#f8fafc' }}>
+          <Activity size={14} color="#059669" />
+          <Typography sx={{ fontSize: '0.72rem', fontWeight: 700, color: BRAND.text.primary }}>
             Control Center Active
           </Typography>
         </Box>
-        <Typography sx={{ fontSize: '0.65rem', color: '#64748b' }}>
+        <Typography sx={{ fontSize: '0.65rem', color: BRAND.text.secondary }}>
           Dispatch & Supply Chain Engine
         </Typography>
       </Box>
@@ -144,9 +144,9 @@ const MainLayout = () => {
         ml: { sm: `${drawerWidth}px` },
         display: { sm: 'none' },
         bgcolor: BRAND.surface.sidebar,
-        color: '#ffffff',
+        color: BRAND.text.primary,
         borderBottom: `1px solid ${BRAND.surface.border}`,
-        boxShadow: '0 4px 20px rgba(0,0,0,0.5)',
+        boxShadow: '0 1px 3px rgba(0,0,0,0.06)',
       }}>
         <Toolbar>
           <IconButton color="inherit" edge="start" onClick={handleDrawerToggle} sx={{ mr: 2 }}>
@@ -164,7 +164,7 @@ const MainLayout = () => {
             }}>
               <Typography sx={{ fontSize: '0.9rem', fontWeight: 900, color: '#fff' }}>H</Typography>
             </Box>
-            <Typography variant="h6" noWrap component="div" fontWeight={800} sx={{ fontSize: '1.05rem', color: '#fff' }}>
+            <Typography variant="h6" noWrap component="div" fontWeight={800} sx={{ fontSize: '1.05rem', color: BRAND.text.primary }}>
               Hemant Global
             </Typography>
           </Box>

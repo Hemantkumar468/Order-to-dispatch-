@@ -87,12 +87,12 @@ const OrderUpdateModal = ({ open, onClose, order }) => {
         }
       }}
     >
-      <Box sx={{ p: 2.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: BRAND.surface.header, borderBottom: `1px solid ${BRAND.surface.border}` }}>
+      <Box sx={{ p: 2.5, display: 'flex', justifyContent: 'space-between', alignItems: 'center', bgcolor: '#ffffff', borderBottom: `1px solid ${BRAND.surface.border}` }}>
         <Box>
-          <Typography variant="h6" fontWeight={800} sx={{ color: '#ffffff' }}>Update Workflow</Typography>
-          <Typography variant="caption" sx={{ color: '#94a3b8' }}>SO: {order.soNumber} • {order.partyName}</Typography>
+          <Typography variant="h6" fontWeight={800} sx={{ color: BRAND.text.primary }}>Update Workflow</Typography>
+          <Typography variant="caption" sx={{ color: BRAND.text.secondary }}>SO: {order.soNumber} • {order.partyName}</Typography>
         </Box>
-        <IconButton onClick={onClose} size="small" sx={{ color: '#94a3b8', '&:hover': { color: '#ffffff' } }}>
+        <IconButton onClick={onClose} size="small" sx={{ color: BRAND.text.secondary, '&:hover': { color: BRAND.primary } }}>
           <X size={20} />
         </IconButton>
       </Box>
@@ -107,10 +107,10 @@ const OrderUpdateModal = ({ open, onClose, order }) => {
                 key={step.key}
                 sx={{ 
                   border: '1px solid',
-                  borderColor: isDone ? BRAND.successBorder : 'rgba(255, 255, 255, 0.08)',
+                  borderColor: isDone ? BRAND.successBorder : BRAND.surface.border,
                   borderRadius: '12px',
                   p: 1.8,
-                  bgcolor: isDone ? BRAND.successBg : 'rgba(255, 255, 255, 0.02)',
+                  bgcolor: isDone ? BRAND.successBg : '#f8fafc',
                   display: 'flex',
                   justifyContent: 'space-between',
                   alignItems: 'center'
@@ -120,7 +120,7 @@ const OrderUpdateModal = ({ open, onClose, order }) => {
                   <StatusIcon status={stepData.status} />
                   <ListItemText 
                     primary={step.label} 
-                    primaryTypographyProps={{ fontWeight: 700, fontSize: '0.85rem', color: isDone ? '#ffffff' : '#cbd5e1' }}
+                    primaryTypographyProps={{ fontWeight: 700, fontSize: '0.85rem', color: BRAND.text.primary }}
                   />
                 </Box>
                 <TextField
@@ -141,7 +141,7 @@ const OrderUpdateModal = ({ open, onClose, order }) => {
         </List>
       </Box>
 
-      <Box sx={{ p: 2.5, borderTop: `1px solid ${BRAND.surface.border}`, display: 'flex', gap: 2, bgcolor: BRAND.surface.header }}>
+      <Box sx={{ p: 2.5, borderTop: `1px solid ${BRAND.surface.border}`, display: 'flex', gap: 2, bgcolor: '#ffffff' }}>
         <Button fullWidth variant="outlined" onClick={onClose}>
           Cancel
         </Button>

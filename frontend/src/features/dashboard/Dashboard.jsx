@@ -68,9 +68,9 @@ const StatCard = ({ title, value, icon: Icon, color, lightColor, trend, loading 
         {title}
       </Typography>
       {loading ? (
-        <Skeleton variant="text" width="60%" height={40} sx={{ bgcolor: 'rgba(255, 255, 255, 0.05)' }} />
+        <Skeleton variant="text" width="60%" height={40} sx={{ bgcolor: 'rgba(0, 0, 0, 0.06)' }} />
       ) : (
-        <Typography sx={{ fontSize: '1.9rem', fontWeight: 900, color: '#ffffff', lineHeight: 1.2, letterSpacing: '-0.02em' }}>
+        <Typography sx={{ fontSize: '1.9rem', fontWeight: 900, color: BRAND.text.primary, lineHeight: 1.2, letterSpacing: '-0.02em' }}>
           {value}
         </Typography>
       )}
@@ -82,15 +82,15 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (active && payload && payload.length) {
     return (
       <Box sx={{
-        bgcolor: '#0f172a',
+        bgcolor: '#ffffff',
         p: 1.5,
         borderRadius: '10px',
-        border: '1px solid rgba(99, 102, 241, 0.3)',
-        boxShadow: '0 8px 24px rgba(0,0,0,0.6)',
+        border: `1px solid ${BRAND.surface.border}`,
+        boxShadow: '0 8px 24px rgba(0,0,0,0.1)',
       }}>
-        <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8', mb: 0.5 }}>{label}</Typography>
-        <Typography sx={{ fontSize: '0.95rem', fontWeight: 800, color: '#ffffff' }}>
-          {payload[0].value} <span style={{ fontSize: '0.75rem', color: BRAND.primaryLight }}>Units Dispatched</span>
+        <Typography sx={{ fontSize: '0.75rem', color: BRAND.text.secondary, mb: 0.5 }}>{label}</Typography>
+        <Typography sx={{ fontSize: '0.95rem', fontWeight: 800, color: BRAND.text.primary }}>
+          {payload[0].value} <span style={{ fontSize: '0.75rem', color: BRAND.primary }}>Units Dispatched</span>
         </Typography>
       </Box>
     );
@@ -125,26 +125,26 @@ const Dashboard = () => {
       {/* Header */}
       <Box sx={{ mb: 3.5 }}>
         <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5, mb: 0.5 }}>
-          <Typography variant="h4" fontWeight={900} sx={{ color: '#ffffff', fontSize: { xs: '1.6rem', sm: '2.25rem' }, letterSpacing: '-0.02em' }}>
+          <Typography variant="h4" fontWeight={900} sx={{ color: BRAND.text.primary, fontSize: { xs: '1.6rem', sm: '2.25rem' }, letterSpacing: '-0.02em' }}>
             Control Tower
           </Typography>
           <Box sx={{
             px: 1.2,
             py: 0.3,
             borderRadius: '20px',
-            bgcolor: 'rgba(99, 102, 241, 0.15)',
-            border: '1px solid rgba(99, 102, 241, 0.3)',
+            bgcolor: 'rgba(79, 70, 229, 0.1)',
+            border: '1px solid rgba(79, 70, 229, 0.25)',
             display: 'flex',
             alignItems: 'center',
             gap: 0.6
           }}>
-            <Sparkles size={12} color={BRAND.primaryLight} />
-            <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: BRAND.primaryLight }}>
+            <Sparkles size={12} color={BRAND.primary} />
+            <Typography sx={{ fontSize: '0.68rem', fontWeight: 700, color: BRAND.primary }}>
               REAL-TIME OPS
             </Typography>
           </Box>
         </Box>
-        <Typography variant="body2" sx={{ color: '#94a3b8' }}>
+        <Typography variant="body2" sx={{ color: BRAND.text.secondary }}>
           Operational overview for Hemant Global Dispatch & Supply Systems
         </Typography>
       </Box>
@@ -157,7 +157,7 @@ const Dashboard = () => {
             value={ordersData?.meta?.total || '10'}
             icon={ShoppingCart}
             color={BRAND.primary}
-            lightColor={BRAND.primaryLight}
+            lightColor={BRAND.primary}
             trend="+12% this week"
             loading={ordersLoading}
           />
@@ -168,7 +168,7 @@ const Dashboard = () => {
             value="24"
             icon={Clock}
             color={BRAND.wip}
-            lightColor={BRAND.secondaryLight}
+            lightColor={BRAND.secondary}
             loading={ordersLoading}
           />
         </Grid>
@@ -178,7 +178,7 @@ const Dashboard = () => {
             value="158"
             icon={CheckCircle}
             color={BRAND.success}
-            lightColor={BRAND.successLight}
+            lightColor={BRAND.success}
             trend="+5.2% vs target"
             loading={invoicesLoading}
           />
@@ -189,7 +189,7 @@ const Dashboard = () => {
             value="₹12.4L"
             icon={AlertCircle}
             color={BRAND.error}
-            lightColor={BRAND.errorLight}
+            lightColor={BRAND.error}
             loading={invoicesLoading}
           />
         </Grid>
@@ -204,20 +204,20 @@ const Dashboard = () => {
             borderRadius: '16px',
             bgcolor: BRAND.surface.card,
             border: `1px solid ${BRAND.surface.border}`,
-            boxShadow: '0 4px 24px -2px rgba(0,0,0,0.4)',
+            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.05)',
           }}>
             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 2 }}>
               <Box>
-                <Typography variant="h6" fontWeight={800} sx={{ color: '#ffffff' }}>
+                <Typography variant="h6" fontWeight={800} sx={{ color: BRAND.text.primary }}>
                   Weekly Dispatch Velocity
                 </Typography>
-                <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+                <Typography sx={{ fontSize: '0.75rem', color: BRAND.text.secondary }}>
                   Units shipped per day across all distribution channels
                 </Typography>
               </Box>
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: BRAND.primary, boxShadow: `0 0 10px ${BRAND.primary}` }} />
-                <Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: '#e2e8f0' }}>7-Day Output</Typography>
+                <Box sx={{ width: 8, height: 8, borderRadius: '50%', bgcolor: BRAND.primary }} />
+                <Typography sx={{ fontSize: '0.72rem', fontWeight: 600, color: BRAND.text.secondary }}>7-Day Output</Typography>
               </Box>
             </Box>
 
@@ -226,18 +226,18 @@ const Dashboard = () => {
                 <AreaChart data={dispatchTrendData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
                   <defs>
                     <linearGradient id="colorValue" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="5%" stopColor={BRAND.primary} stopOpacity={0.35} />
+                      <stop offset="5%" stopColor={BRAND.primary} stopOpacity={0.25} />
                       <stop offset="95%" stopColor={BRAND.primary} stopOpacity={0.0} />
                     </linearGradient>
                   </defs>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255, 255, 255, 0.05)" />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
                   <XAxis dataKey="name" stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
                   <YAxis stroke="#64748b" fontSize={12} tickLine={false} axisLine={false} />
                   <Tooltip content={<CustomTooltip />} />
                   <Area
                     type="monotone"
                     dataKey="value"
-                    stroke={BRAND.primaryLight}
+                    stroke={BRAND.primary}
                     strokeWidth={3}
                     fillOpacity={1}
                     fill="url(#colorValue)"
@@ -255,16 +255,16 @@ const Dashboard = () => {
             borderRadius: '16px',
             bgcolor: BRAND.surface.card,
             border: `1px solid ${BRAND.surface.border}`,
-            boxShadow: '0 4px 24px -2px rgba(0,0,0,0.4)',
+            boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.05)',
             height: '100%',
             display: 'flex',
             flexDirection: 'column'
           }}>
             <Box sx={{ mb: 3 }}>
-              <Typography variant="h6" fontWeight={800} sx={{ color: '#ffffff' }}>
+              <Typography variant="h6" fontWeight={800} sx={{ color: BRAND.text.primary }}>
                 Pipeline Fulfillment
               </Typography>
-              <Typography sx={{ fontSize: '0.75rem', color: '#94a3b8' }}>
+              <Typography sx={{ fontSize: '0.75rem', color: BRAND.text.secondary }}>
                 Stage completion rates & operational clearance
               </Typography>
             </Box>
@@ -273,16 +273,16 @@ const Dashboard = () => {
               {bottleneckData.map((item) => (
                 <Box key={item.name}>
                   <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.8 }}>
-                    <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: '#e2e8f0' }}>
+                    <Typography sx={{ fontSize: '0.8rem', fontWeight: 600, color: BRAND.text.primary }}>
                       {item.name}
                     </Typography>
                     <Box sx={{
                       px: 1,
                       py: 0.2,
                       borderRadius: '6px',
-                      bgcolor: alpha(item.color, 0.12),
+                      bgcolor: alpha(item.color, 0.1),
                       border: `1px solid ${alpha(item.color, 0.25)}`,
-                      color: item.light,
+                      color: item.color,
                       fontSize: '0.72rem',
                       fontWeight: 800
                     }}>
@@ -295,11 +295,10 @@ const Dashboard = () => {
                     sx={{
                       height: 7,
                       borderRadius: 4,
-                      bgcolor: 'rgba(255, 255, 255, 0.05)',
+                      bgcolor: '#f1f5f9',
                       '& .MuiLinearProgress-bar': {
                         borderRadius: 4,
                         bgcolor: item.color,
-                        boxShadow: `0 0 10px ${alpha(item.color, 0.5)}`,
                       }
                     }}
                   />
